@@ -1,0 +1,67 @@
+server:
+  port: ${PORT:8085}
+springdoc:
+  show-actuator: true
+  swagger-ui:
+    groups-order: DESC
+    disable-swagger-default-url: true
+
+app:
+  cors:
+    allowed-origins: http://localhost:3000
+spring:
+  application:
+    name: ms-bill
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        enabled: false
+        service-id: config-service
+  main:
+    allow-circular-references: true
+  security:
+    oauth2:
+    client:
+      provider:
+        Keycloak:
+          issuer-uri: http://localhost:8082/realms/DigitalMedia
+        registration:
+          keycloak:
+            provider: Keycloak
+            client-id: microservicios
+            client-secret: MOrNxc3rlLCPwBs26qB4todeQwEl55Hn
+            authorization-grant-type: authorization_code
+            redirect-uri: 'http://localhost:8080/*'
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
+    username: sa
+    password: sa
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    enabled: true
+
+
+dh:
+  serverUrl: http://localhost:8082/realms/DigitalMedia/protocol/openid-connect/token
+  clientId: microservicios
+  clientSecret: MOrNxc3rlLCPwBs26qB4todeQwEl55Hn
+  authorization-grant-type: client_credentials
